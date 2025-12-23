@@ -8,60 +8,59 @@ spec:
   generators:
   - list:
       elements:
-#       - env: dev
-#         cluster: "pci-pre"
-#         chartVersion: 1.1.7
-#         valuesFile: pay-pluto-nyx-rest--v1/dev-values.yaml
-#         automaticSync: true
-#         tag: 84-snapshot
-#       - env: qa
-        cluster: "pci-pre"
-        chartVersion: 1.1.7
-        valuesFile: pay-pluto-nyx-rest--v1/qa-values.yaml
-        automaticSync: true
-        tag: 1.1.0-RELEASE
-#       - env: stg
-#         cluster: "pci-pre"
-#         chartVersion: 1.1.7
-#         valuesFile: pay-pluto-nyx-rest--v1/stg-values.yaml
-#         automaticSync: true
-#         tag: 1.1.0-RELEASE
-#       - env: prod
-        cluster: "pci-pro"
-        chartVersion: 1.1.7
-        valuesFile: pay-pluto-nyx-rest--v1/pro-values.yaml
-        automaticSync: false
-        tag: 1.1.0-RELEASE
-  template:
-    metadata:
-      name: pay-pluto-nyx-rest--v1-{{.env}}
-      namespace: argocd
-      labels:
-        argocd.argoproj.io/instance: pay-pluto-nyx-rest--v1
-        aea.tag: "{{.tag | default \"none\"}}"
-    spec:
-      destination:
-        namespace: aea-backend-pci-{{.env}}
-        name: "{{.cluster}}"
-      project: payment-{{.env}}
-      sources:
-      - chart: aea-aws-helm-template
-        repoURL: https://aea-helm3-repo.s3.eu-west-1.amazonaws.com/stable/aea-aws-helm-template/
-        targetRevision: "{{.chartVersion}}"
-        helm:
-          releaseName: pay-pluto-nyx-rest--v1-{{.env}}
-          valueFiles:
-          - $values/{{.valuesFile}}
-      - repoURL: https://github.com/AirEuropaIT/aea-argocd-payment-bootstrap.git
-        targetRevision: HEAD
-        ref: values
-  templatePatch: |
-    {{- if .automaticSync }}
-    spec:
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-        - CreateNamespace=false
-    {{- end }}
+#      - env: dev
+#        cluster: "pci-pre"
+#        chartVersion: 1.1.7
+#        valuesFile: pay-pluto-nyx-rest--v1/dev-values.yaml
+#        automaticSync: true
+#        tag: 84-snapshot
+#      - env: qa
+#        cluster: "pci-pre"
+#        chartVersion: 1.1.7
+#        valuesFile: pay-pluto-nyx-rest--v1/qa-values.yaml
+#        automaticSync: true
+#        tag: 1.1.0-RELEASE
+#      - env: stg
+#        cluster: "pci-pre"
+#        chartVersion: 1.1.7
+#        valuesFile: pay-pluto-nyx-rest--v1/stg-values.yaml
+#        automaticSync: true
+#        tag: 1.1.0-RELEASE
+#        cluster: "pci-pro"
+#        chartVersion: 1.1.7
+#        valuesFile: pay-pluto-nyx-rest--v1/pro-values.yaml
+#        automaticSync: false
+#        tag: 1.1.0-RELEASE
+#  template:
+#    metadata:
+#      name: pay-pluto-nyx-rest--v1-{{.env}}
+#      namespace: argocd
+#      labels:
+#        argocd.argoproj.io/instance: pay-pluto-nyx-rest--v1
+#        aea.tag: "{{.tag | default \"none\"}}"
+#    spec:
+#      destination:
+#        namespace: aea-backend-pci-{{.env}}
+#        name: "{{.cluster}}"
+#      project: payment-{{.env}}
+#      sources:
+#      - chart: aea-aws-helm-template
+#        repoURL: https://aea-helm3-repo.s3.eu-west-1.amazonaws.com/stable/aea-aws-helm-template/
+#        targetRevision: "{{.chartVersion}}"
+#        helm:
+#          releaseName: pay-pluto-nyx-rest--v1-{{.env}}
+#          valueFiles:
+#          - $values/{{.valuesFile}}
+#      - repoURL: https://github.com/AirEuropaIT/aea-argocd-payment-bootstrap.git
+#        targetRevision: HEAD
+#        ref: values
+#  templatePatch: |
+#    {{- if .automaticSync }}
+#    spec:
+#      syncPolicy:
+#        automated:
+#          prune: true
+#          selfHeal: true
+#        syncOptions:
+#        - CreateNamespace=false
+#    {{- end }}
