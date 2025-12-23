@@ -1,0 +1,101 @@
+
+microserviceName: "pay-pluto-nyx-rest--v1"
+environmentName: "pci-dev"
+
+app:
+  language: "python"
+
+image:
+  repository: "aireuropa/pay-pluto-nyx-rest"
+  pullPolicy: IfNotPresent
+  tag: "84-snapshot"
+
+healthcheck:
+  liveness:
+    path: /api/v1/health/
+  readiness:
+    path: /api/v1/health/
+
+properties:
+  enabled: false
+
+serviceAccount:
+  name: "microservices-sa"
+
+envVars:
+  enabled: true
+  extraValues:
+
+##################
+# Infrastructure #
+##################
+replicaCount: 1
+maxUnavailable:  0
+
+resources:
+  limits:
+    cpu: 1800m
+    memory: 500Mi
+    ephemeral-storage: 1G
+  requests:
+    cpu: 50m
+    memory: 500Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 70
+  # targetMemoryUtilizationPercentage: 80
+
+service:
+  port: 80
+  targetPort: 8080
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /
+
+traefik:
+  enabled: true
+  stripPrefix: true
+  pathPrefix: true
+  versioning: true
+  allowedHosts:
+    - api.dev.alb.pci-pre.private.aws.aireuropa.com
+    - api.dev.alb.pci-pre.aws.aireuropa.com
+  customPath: pay-pluto-nyx-rest/v1
+httpProxy:
+  enabled: true
+
+###################
+# Init Containers #
+###################
+
+podLockStartup:
+  enabled: true
+    
+monitoring:
+  openmetrics:
+    enabled: 
+    path: 
+  datadog:
+    enabled: true
+    environment: dev
+    tags: "bluegreen:pci-dev"
+    serviceMapping: "redis:elasticache"
+    dogstatsd: "socket"
+    
+############
+# Security #
+############
+
+podAnnotations:
+  iam.amazonaws.com/role: arn:aws:iam::178276242848:role/aea-pci-pre-role-microservices
+
+
+podSecurityContext: {}
+
+securityContext:
+  allowPrivilegeEscalation: false
+
+affinity: 
+  enabled: true
