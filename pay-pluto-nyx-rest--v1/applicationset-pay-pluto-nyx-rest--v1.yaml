@@ -8,25 +8,25 @@ spec:
   generators:
   - list:
       elements:
-#      - env: dev
-#        cluster: "pci-pre"
-#        chartVersion: 1.1.7
-#        valuesFile: pay-pluto-nyx-rest--v1/dev-values.yaml
-#        automaticSync: true
-#        tag: 84-snapshot
-#      - env: qa
+#       - env: dev
+#         cluster: "pci-pre"
+#         chartVersion: 1.1.7
+#         valuesFile: pay-pluto-nyx-rest--v1/dev-values.yaml
+#         automaticSync: true
+#         tag: 84-snapshot
+#       - env: qa
         cluster: "pci-pre"
         chartVersion: 1.1.7
         valuesFile: pay-pluto-nyx-rest--v1/qa-values.yaml
         automaticSync: true
         tag: 1.1.0-RELEASE
-#      - env: stg
-#        cluster: "pci-pre"
-#        chartVersion: 1.1.7
-#        valuesFile: pay-pluto-nyx-rest--v1/stg-values.yaml
-#        automaticSync: true
-#        tag: 1.1.0-RELEASE
-#      - env: prod
+#       - env: stg
+#         cluster: "pci-pre"
+#         chartVersion: 1.1.7
+#         valuesFile: pay-pluto-nyx-rest--v1/stg-values.yaml
+#         automaticSync: true
+#         tag: 1.1.0-RELEASE
+#       - env: prod
         cluster: "pci-pro"
         chartVersion: 1.1.7
         valuesFile: pay-pluto-nyx-rest--v1/pro-values.yaml
